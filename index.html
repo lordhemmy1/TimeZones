@@ -117,11 +117,8 @@
       margin: 5px 0;
     }
     .format-toggle {
-      margin: 10px 0;
       font-size: 0.9em;
-    }
-    label {
-      font-weight: bold;
+      margin-left: 10px;
     }
   </style>
 </head>
@@ -336,22 +333,21 @@
   <div id="comparisonPanel" class="draggable">
     <div class="drag-header">Compare Countries</div>
     <div style="padding: 10px;">
-      <!-- Dropdowns for country selection -->
+      <!-- Country 1 selection and 24hr toggle -->
       <div>
         <label for="compareCountry1"><strong>Country 1:</strong></label>
         <select id="compareCountry1"></select>
-        <div class="format-toggle">
-          <input type="checkbox" id="compareFormat1">
-          <label for="compareFormat1">Use 12 Hour Format</label>
-        </div>
+        <label class="format-toggle">
+          <input type="checkbox" id="checkbox-format1"> 24-Hour Format
+        </label>
       </div>
+      <!-- Country 2 selection and 24hr toggle -->
       <div style="margin-top: 10px;">
         <label for="compareCountry2"><strong>Country 2:</strong></label>
         <select id="compareCountry2"></select>
-        <div class="format-toggle">
-          <input type="checkbox" id="compareFormat2">
-          <label for="compareFormat2">Use 12 Hour Format</label>
-        </div>
+        <label class="format-toggle">
+          <input type="checkbox" id="checkbox-format2"> 24-Hour Format
+        </label>
       </div>
       <div class="compare-section">
         <div class="compare-box" id="compare-box1">
@@ -415,8 +411,13 @@
     updateClocks();
 
     // ----------------------------
-    // Comparison panel country data
-    // In a real application, this array would include all countries.
+    // Comparison panel country data list
+    // In a real application, replace this sample list with all 195 recognized countries.
+    // Each object should include:
+    //  - name: the country name,
+    //  - timezone: a valid IANA time zone string,
+    //  - group: its designated time zone grouping,
+    //  - climate: a climate descriptor.
     // ----------------------------
     const allCountries = [
       { name: 'Nigeria', timezone: 'Africa/Lagos', group: 'WAT', climate: 'Tropical' },
@@ -437,12 +438,17 @@
       { name: 'Australia (Sydney)', timezone: 'Australia/Sydney', group: 'AEST', climate: 'Summer' },
       { name: 'Australia (Adelaide)', timezone: 'Australia/Adelaide', group: 'ACST', climate: 'Mild' },
       { name: 'New Zealand (Wellington)', timezone: 'Pacific/Auckland', group: 'NZST', climate: 'Cool' }
+      // ... Extend this list to include all 195 countries
     ];
 
-    // Populate both dropdowns with all countries
+    // Populate the two dropdowns in the comparison panel with all countries.
     function populateComparisonDropdowns() {
       const select1 = document.getElementById('compareCountry1');
       const select2 = document.getElementById('compareCountry2');
+      // Clear existing options (if any)
+      select1.innerHTML = "";
+      select2.innerHTML = "";
+      
       allCountries.forEach((country, index) => {
         const option1 = document.createElement('option');
         option1.value = index;
@@ -455,30 +461,20 @@
       });
     }
 
-    // Update comparison details when a country is selected
+    // Update comparison details when a country is selected.
     function updateComparison() {
       const sel1 = document.getElementById('compareCountry1');
       const sel2 = document.getElementById('compareCountry2');
       const country1 = allCountries[sel1.value];
       const country2 = allCountries[sel2.value];
-
-      // Check each country's formatting checkbox (if checked, use 12-hour)
-      const use12Format1 = document.getElementById('compareFormat1').checked;
-      const use12Format2 = document.getElementById('compareFormat2').checked;
       
-      const options1 = { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit', 
-        hour12: use12Format1 
-      };
-      const options2 = { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit', 
-        hour12: use12Format2 
-      };
-
+      // Get checkbox states for 24-hour format; if not checked, use 12-hour format.
+      const format1 = document.getElementById('checkbox-format1').checked ? false : true;
+      const format2 = document.getElementById('checkbox-format2').checked ? false : true;
+      
+      const options1 = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: format1 };
+      const options2 = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: format2 };
+      
       // Country 1 details
       document.getElementById('compare-header1').textContent = country1.name;
       document.getElementById('compare-group1').textContent = "Time Zone Group: " + country1.group;
@@ -491,6 +487,7 @@
       document.getElementById('compare-time2').textContent = "Time: " + new Date().toLocaleTimeString([], { ...options2, timeZone: country2.timezone });
       document.getElementById('compare-climate2').textContent = "Climate: " + country2.climate;
     }
+    // Update the comparison panel every second to refresh the time.
     setInterval(updateComparison, 1000);
     populateComparisonDropdowns();
     updateComparison();
@@ -502,13 +499,16 @@
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
       const dragHeader = elm.querySelector('.drag-header');
       if (dragHeader) {
+        // if present, the header is where you move the DIV from:
         dragHeader.onmousedown = dragMouseDown;
       } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
         elm.onmousedown = dragMouseDown;
       }
       function dragMouseDown(e) {
         e = e || window.event;
         e.preventDefault();
+        // get the mouse cursor position at startup:
         pos3 = e.clientX;
         pos4 = e.clientY;
         document.onmouseup = closeDragElement;
@@ -517,10 +517,12 @@
       function elementDrag(e) {
         e = e || window.event;
         e.preventDefault();
+        // calculate the new cursor position:
         pos1 = pos3 - e.clientX;
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
+        // set the element's new position:
         elm.style.top = (elm.offsetTop - pos2) + "px";
         elm.style.left = (elm.offsetLeft - pos1) + "px";
       }
@@ -529,9 +531,10 @@
         document.onmousemove = null;
       }
     }
+    // Make both panels draggable
     makeDraggable(document.getElementById("groupedPanel"));
     makeDraggable(document.getElementById("comparisonPanel"));
   </script>
 
 </body>
-</html>
+  </html>
