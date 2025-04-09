@@ -12,21 +12,42 @@
       padding: 20px;
       color: #333;
     }
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 10px;
+    h1, h2, h3 {
+      margin: 0;
+      padding: 10px;
+      background: #007ACC;
+      color: #fff;
+      cursor: move;
+      user-select: none;
+    }
+    h1 {
+      font-size: 1.8em;
     }
     h2 {
-      margin-top: 40px;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 5px;
+      font-size: 1.4em;
+    }
+    h3 {
+      font-size: 1.2em;
+    }
+    /* Draggable container styling */
+    .draggable-container {
+      position: absolute;
+      background: #fff;
+      border: 2px solid #007ACC;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding-bottom: 15px;
+      z-index: 10;
+    }
+    .content {
+      padding: 15px;
     }
     .region-container {
       max-width: 1200px;
       margin: 0 auto;
     }
     .timezone-group {
-      background: #fff;
+      background: #f7f7f7;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       padding: 15px 20px;
@@ -64,213 +85,319 @@
       text-align: center;
       color: #555;
     }
+    /* Second Interface Styles */
+    .info-display {
+      margin-top: 15px;
+      font-size: 1.2em;
+      text-align: center;
+    }
+    .info-display span {
+      font-weight: bold;
+      color: #007ACC;
+    }
   </style>
 </head>
 <body>
 
-  <h1>World Time Zone Clocks</h1>
-
-  <div class="region-container">
-    <!-- Africa -->
-    <h2>Africa</h2>
-    <div class="group-grid">
-      <!-- WAT -->
-      <div class="timezone-group">
-        <div class="timezone-header">WAT</div>
-        <select id="select-africa-wat">
-          <option value="Africa/Lagos">Nigeria</option>
-          <option value="Africa/Luanda">Angola</option>
-          <option value="Africa/Douala">Cameroon</option>
-          <option value="Africa/Brazzaville">Congo (Brazzaville)</option>
-        </select>
-        <div class="clock-display" id="clock-africa-wat"></div>
-      </div>
-      <!-- CAT -->
-      <div class="timezone-group">
-        <div class="timezone-header">CAT</div>
-        <select id="select-africa-cat">
-          <option value="Africa/Johannesburg">South Africa</option>
-          <option value="Africa/Gaborone">Botswana</option>
-          <option value="Africa/Lusaka">Zambia</option>
-          <option value="Africa/Harare">Zimbabwe</option>
-        </select>
-        <div class="clock-display" id="clock-africa-cat"></div>
-      </div>
-      <!-- EAT -->
-      <div class="timezone-group">
-        <div class="timezone-header">EAT</div>
-        <select id="select-africa-eat">
-          <option value="Africa/Nairobi">Kenya</option>
-          <option value="Africa/Addis_Ababa">Ethiopia</option>
-          <option value="Africa/Dar_es_Salaam">Tanzania</option>
-          <option value="Africa/Kampala">Uganda</option>
-        </select>
-        <div class="clock-display" id="clock-africa-eat"></div>
-      </div>
-      <!-- GMT -->
-      <div class="timezone-group">
-        <div class="timezone-header">GMT</div>
-        <select id="select-africa-gmt">
-          <option value="Africa/Accra">Ghana</option>
-          <option value="Africa/Abidjan">Ivory Coast</option>
-          <option value="Africa/Ouagadougou">Burkina Faso</option>
-          <option value="Africa/Bamako">Mali</option>
-        </select>
-        <div class="clock-display" id="clock-africa-gmt"></div>
+  <!-- Draggable Interface 1: Grouped Time Zones -->
+  <div id="drag1" class="draggable-container" style="top: 20px; left: 20px; width: 95%;">
+    <h1>Grouped Time Zones</h1>
+    <div class="content">
+      <div class="region-container">
+        <!-- Africa -->
+        <h2>Africa</h2>
+        <div class="group-grid">
+          <!-- WAT -->
+          <div class="timezone-group">
+            <div class="timezone-header">WAT</div>
+            <select id="select-africa-wat">
+              <option value="Africa/Lagos">Nigeria</option>
+              <option value="Africa/Luanda">Angola</option>
+              <option value="Africa/Douala">Cameroon</option>
+              <option value="Africa/Brazzaville">Congo (Brazzaville)</option>
+            </select>
+            <div class="clock-display" id="clock-africa-wat"></div>
+          </div>
+          <!-- CAT -->
+          <div class="timezone-group">
+            <div class="timezone-header">CAT</div>
+            <select id="select-africa-cat">
+              <option value="Africa/Johannesburg">South Africa</option>
+              <option value="Africa/Gaborone">Botswana</option>
+              <option value="Africa/Lusaka">Zambia</option>
+              <option value="Africa/Harare">Zimbabwe</option>
+            </select>
+            <div class="clock-display" id="clock-africa-cat"></div>
+          </div>
+          <!-- EAT -->
+          <div class="timezone-group">
+            <div class="timezone-header">EAT</div>
+            <select id="select-africa-eat">
+              <option value="Africa/Nairobi">Kenya</option>
+              <option value="Africa/Addis_Ababa">Ethiopia</option>
+              <option value="Africa/Dar_es_Salaam">Tanzania</option>
+              <option value="Africa/Kampala">Uganda</option>
+            </select>
+            <div class="clock-display" id="clock-africa-eat"></div>
+          </div>
+          <!-- GMT -->
+          <div class="timezone-group">
+            <div class="timezone-header">GMT</div>
+            <select id="select-africa-gmt">
+              <option value="Africa/Accra">Ghana</option>
+              <option value="Africa/Abidjan">Ivory Coast</option>
+              <option value="Africa/Ouagadougou">Burkina Faso</option>
+              <option value="Africa/Bamako">Mali</option>
+            </select>
+            <div class="clock-display" id="clock-africa-gmt"></div>
+          </div>
+        </div>
+  
+        <!-- Asia & Middle East -->
+        <h2>Asia & Middle East</h2>
+        <div class="group-grid">
+          <!-- UAE/GST -->
+          <div class="timezone-group">
+            <div class="timezone-header">UAE/GST</div>
+            <select id="select-ame-gst">
+              <option value="Asia/Dubai">United Arab Emirates</option>
+              <option value="Asia/Muscat">Oman</option>
+              <option value="Asia/Qatar">Qatar</option>
+            </select>
+            <div class="clock-display" id="clock-ame-gst"></div>
+          </div>
+          <!-- IST -->
+          <div class="timezone-group">
+            <div class="timezone-header">IST</div>
+            <select id="select-ame-ist">
+              <option value="Asia/Kolkata">India</option>
+              <option value="Asia/Colombo">Sri Lanka</option>
+            </select>
+            <div class="clock-display" id="clock-ame-ist"></div>
+          </div>
+          <!-- PKT -->
+          <div class="timezone-group">
+            <div class="timezone-header">PKT</div>
+            <select id="select-ame-pkt">
+              <option value="Asia/Karachi">Pakistan</option>
+            </select>
+            <div class="clock-display" id="clock-ame-pkt"></div>
+          </div>
+          <!-- ICT -->
+          <div class="timezone-group">
+            <div class="timezone-header">ICT</div>
+            <select id="select-ame-ict">
+              <option value="Asia/Bangkok">Thailand</option>
+              <option value="Asia/Ho_Chi_Minh">Vietnam</option>
+              <option value="Asia/Phnom_Penh">Cambodia</option>
+              <option value="Asia/Vientiane">Laos</option>
+            </select>
+            <div class="clock-display" id="clock-ame-ict"></div>
+          </div>
+          <!-- CST (Asia) -->
+          <div class="timezone-group">
+            <div class="timezone-header">CST</div>
+            <select id="select-ame-cst">
+              <option value="Asia/Shanghai">China</option>
+              <option value="Asia/Taipei">Taiwan</option>
+              <option value="Asia/Singapore">Singapore</option>
+            </select>
+            <div class="clock-display" id="clock-ame-cst"></div>
+          </div>
+        </div>
+  
+        <!-- North America -->
+        <h2>North America</h2>
+        <div class="group-grid">
+          <!-- EST -->
+          <div class="timezone-group">
+            <div class="timezone-header">EST</div>
+            <select id="select-na-est">
+              <option value="America/New_York">USA (New York)</option>
+              <option value="America/Toronto">Canada (Toronto)</option>
+            </select>
+            <div class="clock-display" id="clock-na-est"></div>
+          </div>
+          <!-- CST -->
+          <div class="timezone-group">
+            <div class="timezone-header">CST</div>
+            <select id="select-na-cst">
+              <option value="America/Chicago">USA (Chicago)</option>
+              <option value="America/Mexico_City">Mexico (Mexico City)</option>
+            </select>
+            <div class="clock-display" id="clock-na-cst"></div>
+          </div>
+          <!-- MST -->
+          <div class="timezone-group">
+            <div class="timezone-header">MST</div>
+            <select id="select-na-mst">
+              <option value="America/Denver">USA (Denver)</option>
+              <option value="America/Edmonton">Canada (Edmonton)</option>
+            </select>
+            <div class="clock-display" id="clock-na-mst"></div>
+          </div>
+          <!-- PST -->
+          <div class="timezone-group">
+            <div class="timezone-header">PST</div>
+            <select id="select-na-pst">
+              <option value="America/Los_Angeles">USA (Los Angeles)</option>
+              <option value="America/Vancouver">Canada (Vancouver)</option>
+            </select>
+            <div class="clock-display" id="clock-na-pst"></div>
+          </div>
+        </div>
+  
+        <!-- South America -->
+        <h2>South America</h2>
+        <div class="group-grid">
+          <!-- ART -->
+          <div class="timezone-group">
+            <div class="timezone-header">ART</div>
+            <select id="select-sa-art">
+              <option value="America/Argentina/Buenos_Aires">Argentina</option>
+              <option value="America/Montevideo">Uruguay</option>
+            </select>
+            <div class="clock-display" id="clock-sa-art"></div>
+          </div>
+          <!-- BRT -->
+          <div class="timezone-group">
+            <div class="timezone-header">BRT</div>
+            <select id="select-sa-brt">
+              <option value="America/Sao_Paulo">Brazil</option>
+              <option value="America/Asuncion">Paraguay</option>
+            </select>
+            <div class="clock-display" id="clock-sa-brt"></div>
+          </div>
+        </div>
+  
+        <!-- Australia/Oceania -->
+        <h2>Australia/Oceania</h2>
+        <div class="group-grid">
+          <!-- AEST -->
+          <div class="timezone-group">
+            <div class="timezone-header">AEST</div>
+            <select id="select-au-aest">
+              <option value="Australia/Sydney">Australia (Sydney)</option>
+              <option value="Pacific/Port_Moresby">Papua New Guinea</option>
+            </select>
+            <div class="clock-display" id="clock-au-aest"></div>
+          </div>
+          <!-- ACST -->
+          <div class="timezone-group">
+            <div class="timezone-header">ACST</div>
+            <select id="select-au-acst">
+              <option value="Australia/Adelaide">Australia (Adelaide)</option>
+              <option value="Australia/Darwin">Australia (Darwin)</option>
+            </select>
+            <div class="clock-display" id="clock-au-acst"></div>
+          </div>
+          <!-- NZST -->
+          <div class="timezone-group">
+            <div class="timezone-header">NZST</div>
+            <select id="select-au-nzst">
+              <option value="Pacific/Auckland">New Zealand (Wellington)</option>
+            </select>
+            <div class="clock-display" id="clock-au-nzst"></div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Asia & Middle East -->
-    <h2>Asia & Middle East</h2>
-    <div class="group-grid">
-      <!-- UAE/GST -->
-      <div class="timezone-group">
-        <div class="timezone-header">UAE/GST</div>
-        <select id="select-ame-gst">
-          <option value="Asia/Dubai">United Arab Emirates</option>
-          <option value="Asia/Muscat">Oman</option>
-          <option value="Asia/Qatar">Qatar</option>
-        </select>
-        <div class="clock-display" id="clock-ame-gst"></div>
-      </div>
-      <!-- IST -->
-      <div class="timezone-group">
-        <div class="timezone-header">IST</div>
-        <select id="select-ame-ist">
-          <option value="Asia/Kolkata">India</option>
-          <option value="Asia/Colombo">Sri Lanka</option>
-        </select>
-        <div class="clock-display" id="clock-ame-ist"></div>
-      </div>
-      <!-- PKT -->
-      <div class="timezone-group">
-        <div class="timezone-header">PKT</div>
-        <select id="select-ame-pkt">
-          <option value="Asia/Karachi">Pakistan</option>
-        </select>
-        <div class="clock-display" id="clock-ame-pkt"></div>
-      </div>
-      <!-- ICT -->
-      <div class="timezone-group">
-        <div class="timezone-header">ICT</div>
-        <select id="select-ame-ict">
-          <option value="Asia/Bangkok">Thailand</option>
-          <option value="Asia/Ho_Chi_Minh">Vietnam</option>
-          <option value="Asia/Phnom_Penh">Cambodia</option>
-          <option value="Asia/Vientiane">Laos</option>
-        </select>
-        <div class="clock-display" id="clock-ame-ict"></div>
-      </div>
-      <!-- CST (Asia) -->
-      <div class="timezone-group">
-        <div class="timezone-header">CST</div>
-        <select id="select-ame-cst">
-          <option value="Asia/Shanghai">China</option>
-          <option value="Asia/Taipei">Taiwan</option>
-          <option value="Asia/Singapore">Singapore</option>
-        </select>
-        <div class="clock-display" id="clock-ame-cst"></div>
-      </div>
-    </div>
-
-    <!-- North America -->
-    <h2>North America</h2>
-    <div class="group-grid">
-      <!-- EST -->
-      <div class="timezone-group">
-        <div class="timezone-header">EST</div>
-        <select id="select-na-est">
-          <option value="America/New_York">USA (New York)</option>
-          <option value="America/Toronto">Canada (Toronto)</option>
-        </select>
-        <div class="clock-display" id="clock-na-est"></div>
-      </div>
-      <!-- CST -->
-      <div class="timezone-group">
-        <div class="timezone-header">CST</div>
-        <select id="select-na-cst">
-          <option value="America/Chicago">USA (Chicago)</option>
-          <option value="America/Mexico_City">Mexico (Mexico City)</option>
-        </select>
-        <div class="clock-display" id="clock-na-cst"></div>
-      </div>
-      <!-- MST -->
-      <div class="timezone-group">
-        <div class="timezone-header">MST</div>
-        <select id="select-na-mst">
-          <option value="America/Denver">USA (Denver)</option>
-          <option value="America/Edmonton">Canada (Edmonton)</option>
-        </select>
-        <div class="clock-display" id="clock-na-mst"></div>
-      </div>
-      <!-- PST -->
-      <div class="timezone-group">
-        <div class="timezone-header">PST</div>
-        <select id="select-na-pst">
-          <option value="America/Los_Angeles">USA (Los Angeles)</option>
-          <option value="America/Vancouver">Canada (Vancouver)</option>
-        </select>
-        <div class="clock-display" id="clock-na-pst"></div>
-      </div>
-    </div>
-
-    <!-- South America -->
-    <h2>South America</h2>
-    <div class="group-grid">
-      <!-- ART -->
-      <div class="timezone-group">
-        <div class="timezone-header">ART</div>
-        <select id="select-sa-art">
-          <option value="America/Argentina/Buenos_Aires">Argentina</option>
-          <option value="America/Montevideo">Uruguay</option>
-        </select>
-        <div class="clock-display" id="clock-sa-art"></div>
-      </div>
-      <!-- BRT -->
-      <div class="timezone-group">
-        <div class="timezone-header">BRT</div>
-        <select id="select-sa-brt">
-          <option value="America/Sao_Paulo">Brazil</option>
-          <option value="America/Asuncion">Paraguay</option>
-        </select>
-        <div class="clock-display" id="clock-sa-brt"></div>
-      </div>
-    </div>
-
-    <!-- Australia/Oceania -->
-    <h2>Australia/Oceania</h2>
-    <div class="group-grid">
-      <!-- AEST -->
-      <div class="timezone-group">
-        <div class="timezone-header">AEST</div>
-        <select id="select-au-aest">
-          <option value="Australia/Sydney">Australia (Sydney)</option>
-          <option value="Pacific/Port_Moresby">Papua New Guinea</option>
-        </select>
-        <div class="clock-display" id="clock-au-aest"></div>
-      </div>
-      <!-- ACST -->
-      <div class="timezone-group">
-        <div class="timezone-header">ACST</div>
-        <select id="select-au-acst">
-          <option value="Australia/Adelaide">Australia (Adelaide)</option>
-          <option value="Australia/Darwin">Australia (Darwin)</option>
-        </select>
-        <div class="clock-display" id="clock-au-acst"></div>
-      </div>
-      <!-- NZST -->
-      <div class="timezone-group">
-        <div class="timezone-header">NZST</div>
-        <select id="select-au-nzst">
-          <option value="Pacific/Auckland">New Zealand (Wellington)</option>
-        </select>
-        <div class="clock-display" id="clock-au-nzst"></div>
+  <!-- Draggable Interface 2: Country Selector with Info -->
+  <div id="drag2" class="draggable-container" style="top: 600px; left: 20px; width: 400px;">
+    <h1>Country Selector Info</h1>
+    <div class="content">
+      <h3>Select a Country</h3>
+      <select id="country-selector" style="width: 100%; margin-bottom: 10px;">
+        <!-- Africa -->
+        <optgroup label="Africa">
+          <option value="Africa/Lagos" data-group="WAT" data-climate="Tropical">Nigeria</option>
+          <option value="Africa/Luanda" data-group="WAT" data-climate="Tropical">Angola</option>
+          <option value="Africa/Johannesburg" data-group="CAT" data-climate="Subtropical">South Africa</option>
+          <option value="Africa/Nairobi" data-group="EAT" data-climate="Tropical">Kenya</option>
+          <option value="Africa/Accra" data-group="GMT" data-climate="Tropical Savannah">Ghana</option>
+        </optgroup>
+        <!-- Asia & Middle East -->
+        <optgroup label="Asia & Middle East">
+          <option value="Asia/Dubai" data-group="UAE/GST" data-climate="Arid">United Arab Emirates</option>
+          <option value="Asia/Kolkata" data-group="IST" data-climate="Tropical">India</option>
+          <option value="Asia/Karachi" data-group="PKT" data-climate="Arid">Pakistan</option>
+          <option value="Asia/Bangkok" data-group="ICT" data-climate="Tropical">Thailand</option>
+          <option value="Asia/Shanghai" data-group="CST" data-climate="Humid Subtropical">China</option>
+        </optgroup>
+        <!-- North America -->
+        <optgroup label="North America">
+          <option value="America/New_York" data-group="EST" data-climate="Humid Subtropical">USA (New York)</option>
+          <option value="America/Chicago" data-group="CST" data-climate="Humid Continental">USA (Chicago)</option>
+          <option value="America/Denver" data-group="MST" data-climate="Semi-Arid">USA (Denver)</option>
+          <option value="America/Los_Angeles" data-group="PST" data-climate="Mediterranean">USA (Los Angeles)</option>
+        </optgroup>
+        <!-- South America -->
+        <optgroup label="South America">
+          <option value="America/Argentina/Buenos_Aires" data-group="ART" data-climate="Humid Subtropical">Argentina</option>
+          <option value="America/Sao_Paulo" data-group="BRT" data-climate="Subtropical">Brazil</option>
+        </optgroup>
+        <!-- Australia/Oceania -->
+        <optgroup label="Australia/Oceania">
+          <option value="Australia/Sydney" data-group="AEST" data-climate="Temperate">Australia (Sydney)</option>
+          <option value="Australia/Adelaide" data-group="ACST" data-climate="Mediterranean">Australia (Adelaide)</option>
+          <option value="Pacific/Auckland" data-group="NZST" data-climate="Maritime">New Zealand</option>
+        </optgroup>
+      </select>
+      <div class="info-display">
+        <p>Region/Group: <span id="selected-group">-</span></p>
+        <p>Current Time: <span id="selected-time">-</span></p>
+        <p>Climate: <span id="selected-climate">-</span></p>
       </div>
     </div>
   </div>
 
   <script>
-    // Array to hold the ID mapping of each select and its corresponding clock display
+    // ----------------------------
+    // Draggable Functionality
+    // ----------------------------
+    function makeDraggable(el) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      const header = el.querySelector('h1'); // Use header as handle
+      header.onmousedown = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get mouse cursor position at startup
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        el.style.top = (el.offsetTop - pos2) + "px";
+        el.style.left = (el.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+    }
+
+    // Make both containers draggable.
+    makeDraggable(document.getElementById("drag1"));
+    makeDraggable(document.getElementById("drag2"));
+
+    // ----------------------------
+    // Grouped Time Zones Update
+    // ----------------------------
     const timeZones = [
       { selectId: 'select-africa-wat', clockId: 'clock-africa-wat' },
       { selectId: 'select-africa-cat', clockId: 'clock-africa-cat' },
@@ -310,11 +437,39 @@
       });
     }
 
-    // Update every second
+    // Update clocks every second
     setInterval(updateClocks, 1000);
-    // Initial update
     updateClocks();
+
+    // ----------------------------
+    // Country Selector Interface
+    // ----------------------------
+    const countrySelect = document.getElementById("country-selector");
+    const selectedGroupElem = document.getElementById("selected-group");
+    const selectedTimeElem = document.getElementById("selected-time");
+    const selectedClimateElem = document.getElementById("selected-climate");
+
+    function updateCountryInfo() {
+      const option = countrySelect.options[countrySelect.selectedIndex];
+      const timeZone = option.value;
+      const group = option.getAttribute('data-group');
+      const climate = option.getAttribute('data-climate');
+      selectedGroupElem.textContent = group;
+      selectedClimateElem.textContent = climate;
+
+      const optionsTime = {
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false, timeZone: timeZone
+      };
+      selectedTimeElem.textContent = new Date().toLocaleTimeString([], optionsTime);
+    }
+
+    countrySelect.addEventListener("change", updateCountryInfo);
+
+    // Update the time every second for the second interface
+    setInterval(updateCountryInfo, 1000);
+    updateCountryInfo();
   </script>
 
 </body>
-  </html>
+            </html>
